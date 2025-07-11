@@ -5,6 +5,7 @@ classDiagram
       +String username
       +String email
       +int reputation
+      +void incrementReputation(int delta)
     }
 
     class Question {
@@ -15,6 +16,9 @@ classDiagram
       +List~String~ tagIds
       +int voteCount
       +Date createdAt
+      +String addAnswer(Answer answer)
+      +void upvote()
+      +void downvote()
     }
 
     class Answer {
@@ -24,6 +28,8 @@ classDiagram
       +String body
       +int voteCount
       +Date createdAt
+      +void upvote()
+      +void downvote()
     }
 
     class Comment {
@@ -47,6 +53,19 @@ classDiagram
       +Date createdAt
     }
 
+    class QuestionService <<service>> {
+      +String postQuestion(String userId, String title, String body, List<String> tags)
+      +Question getQuestion(String questionId)
+    }
+
+    class VoteService <<service>> {
+      +int castVote(String userId, String targetId, VoteType type)
+    }
+
+    class SearchService <<service>> {
+      +List~Question~ search(String query, SearchType type)
+    }
+
     %% Relationships
     User "1" -- "*" Question : posts
     User "1" -- "*" Answer   : posts
@@ -58,7 +77,5 @@ classDiagram
     Question "*" -- "*" Tag      : tagged_with
     Question "1" -- "*" Vote     : receives
 
-    Answer "1" -- "*" Comment : has
-    Answer "1" -- "*" Vote    : receives
-
-    %% Note: Vote.targetId can refer to either Question or Answer
+    Answer   "1" -- "*" Comment  : has
+    Answer   "1" -- "*" Vote     : receives
