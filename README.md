@@ -53,16 +53,16 @@ classDiagram
       +Date createdAt
     }
 
-    class QuestionService <<service>> {
+    class QuestionService {
       +String postQuestion(String userId, String title, String body, List<String> tags)
       +Question getQuestion(String questionId)
     }
 
-    class VoteService <<service>> {
+    class VoteService {
       +int castVote(String userId, String targetId, VoteType type)
     }
 
-    class SearchService <<service>> {
+    class SearchService {
       +List~Question~ search(String query, SearchType type)
     }
 
@@ -79,3 +79,4 @@ classDiagram
 
     Answer   "1" -- "*" Comment  : has
     Answer   "1" -- "*" Vote     : receives
+```
